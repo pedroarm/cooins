@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--geist-font)
-  --font-mono: var(--geist-mono-font)
+  --font-sans: var(--geist-font);
+  --font-mono: var(--geist-mono-font);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

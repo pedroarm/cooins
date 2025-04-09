@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useCallback, useMemo } from "react"
 import { ArrowLeftRight } from "lucide-react"
-import { Input } from "@/src/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { currencies } from "../utils/currencies"
 
 type ExchangeRate = {
@@ -34,7 +34,8 @@ export default function CurrencyConverter() {
       if (!response.ok) throw new Error("Failed to fetch exchange rate")
       const data = await response.json()
       setExchangeRates(data[`${fromCurrency}${toCurrency}`])
-    } catch (err) {
+    } catch (error) {
+      console.error("Error fetching exchange rate:", error)
       setError("Unable to fetch exchange rate. Please try again later.")
       setExchangeRates(null)
     }
