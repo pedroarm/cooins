@@ -1,45 +1,37 @@
-"use client";
+'use client';
+import { useEffect } from 'react';
 
-import React, { type JSX } from "react";
-import Script, { ScriptProps } from "next/script";
-
-const PUBLISHER_ID_REGEX = /^pub-\d{16}$/;
-
-type GoogleAdSenseProps = {
-  publisherId: string;
-  strategy?: ScriptProps["strategy"];
-  debug?: boolean;
-};
-
-export function GoogleAds({
-  publisherId,
-  strategy = "afterInteractive",
-  debug = false,
-}: GoogleAdSenseProps): JSX.Element | null {
-  const _publisherId =
-    process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID ?? publisherId;
-
-  if (!_publisherId) {
-    console.error(
-      "nextjs-google-adsense: publisherId can't be empty for GoogleAdSense component"
-    );
-    return null;
-  } else if (!PUBLISHER_ID_REGEX.test(_publisherId)) {
-    console.error(
-      "nextjs-google-adsense: publisherId is not in the correct format. It should be like this: pub-xxxxxxxxxxxxxxxx, there is a total of 16 digits behind pub-"
-    );
-    return null;
+declare global {
+  interface Window {
+    adsbygoogle: unknown[];
   }
+}
+
+interface AdBannerProps {
+  adSlot: string;
+  adFormat?: 'auto' | 'fluid' | 'rectangle' | 'horizontal' | 'vertical';
+  style?: React.CSSProperties;
+}
+
+const AdBanner: React.FC<AdBannerProps> = ({ adSlot, adFormat = 'auto', style }) => {
+  useEffect(() => {
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (err) {
+      console.error('Falha ao carregar o anúncio:', err);
+    }
+  }, []);
 
   return (
-    <>
-      <Script
-        id="nextjs-google-adsense"
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-${_publisherId}${
-          debug ? `google_console=1` : ``
-        }`}
-        strategy={strategy}
-      />
-    </>
+    <ins
+      className="adsbygoogle"
+      style={{ display: 'block', ...style }}
+      data-ad-client="ca-pub-4384979364408071"
+      data-ad-slot={adSlot}
+      data-ad-format={adFormat}
+      data-full-width-responsive="true"
+    />
   );
-}
+};
+
+export default AdBanner;

@@ -94,6 +94,8 @@ export default function CurrencyConverter() {
         </div>
       </div>
 
+      {/* <AdBanner adSlot="SEU_AD_SLOT_ID" /> */}
+
       {/* <div className="mt-8 w-full flex justify-center">
         <div className="ads-slot bg-gray-100 border border-gray-200 rounded-lg p-4 text-center">
           <span className="text-sm text-muted-foreground">Your Ad Here</span>
