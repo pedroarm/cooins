@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4384979364408071" crossOrigin='anonymous' strategy="beforeInteractive" />
+      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4384979364408071" crossOrigin='anonymous' />
       <body className={`${geist.variable} ${geist_mono.variable} font-sans`}>
         {children}
       </body>
