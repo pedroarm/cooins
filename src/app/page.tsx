@@ -4,9 +4,9 @@ import type { SearchParams } from 'nuqs';
 import { currencies } from '@/utils/currencies';
 import CurrencyConverter from '@/components/currency-converter';
 import PopularConvertions from '@/components/popular-convertions';
+// import { Ads } from '@/components/ads';
 
 import { searchParamsCache } from './search-params';
-import { Ads } from '@/components/ads';
 
 export async function generateMetadata({ searchParams }: {
   searchParams: Promise<SearchParams>;
@@ -76,9 +76,9 @@ export default async function Home() {
 
         <CurrencyConverter />
 
-        <div className='my-10'>
+        {/* <div className='my-10'>
           <Ads slot="8769553797" />
-        </div>
+        </div> */}
 
         {/* <CurrencyHistory /> */}
       </div>
