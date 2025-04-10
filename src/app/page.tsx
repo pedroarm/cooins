@@ -6,6 +6,7 @@ import CurrencyConverter from '@/components/currency-converter';
 import PopularConvertions from '@/components/popular-convertions';
 
 import { searchParamsCache } from './search-params';
+import { Ads } from '@/components/ads';
 
 export async function generateMetadata({ searchParams }: {
   searchParams: Promise<SearchParams>;
@@ -74,6 +75,10 @@ export default async function Home() {
         <PopularConvertions />
 
         <CurrencyConverter />
+
+        <div className='my-10'>
+          <Ads slot="8769553797" />
+        </div>
 
         {/* <CurrencyHistory /> */}
       </div>
