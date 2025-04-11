@@ -18,12 +18,11 @@ function parsePair(pair: string): { from: string; to: string } {
 export async function generateMetadata({
   params,
 }: {
-  params: { pair: string };
+  params: Promise<{ pair: string }>;
 }): Promise<Metadata> {
   const { pair } = await params;
   const { from, to } = parsePair(pair);
 
-  // Validação dos parâmetros
   const fromCurrency = currencies.find(c => c.code === from.toUpperCase())?.name ?? 'US Dollar';
   const toCurrency = currencies.find(c => c.code === to.toUpperCase())?.name ?? 'Euro';
 
@@ -47,8 +46,6 @@ export async function generateMetadata({
       languages: {
         'pt-BR': `/convert/${from.toLowerCase()}-to-${to.toLowerCase()}?amount=1`,
         'en-US': `/convert/${from.toLowerCase()}-to-${to.toLowerCase()}?amount=1`,
-        'es-ES': `/convert/${from.toLowerCase()}-to-${to.toLowerCase()}?amount=1`,
-        'zh-CN': `/convert/${from.toLowerCase()}-to-${to.toLowerCase()}?amount=1`,
       },
     },
     openGraph: {
@@ -123,11 +120,9 @@ export default async function ConvertPage({
   const validTo = currencies.some(c => c.code === to.toUpperCase());
 
   if (!validFrom || !validTo) {
-    // Redireciona para a página padrão se os parâmetros forem inválidos
     redirect('/convert/usd-to-brl');
   }
 
-  // Mock de taxa de câmbio (substitua pela chamada real à API)
   const rate = 0.85; // Exemplo: 1 USD = 0.85 EUR
 
   return (
@@ -155,24 +150,6 @@ export default async function ConvertPage({
           {/* <Suspense fallback={<div>Loading History...</div>}>
             <CurrencyHistory from={from.toUpperCase()} to={to.toUpperCase()} />
           </Suspense> */}
-
-          {/* <section className="mt-10">
-            <h2 className="text-xl font-semibold mb-4">Frequently Asked Questions</h2>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-lg font-medium">How to convert {from.toUpperCase()} to {to.toUpperCase()}?</h3>
-                <p className="text-sm text-muted-foreground">
-                  Use Cooins to instantly convert {from.toUpperCase()} to {to.toUpperCase()} with live exchange rates. Enter the amount, select your currencies, and get accurate results in seconds.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-lg font-medium">What is the current exchange rate for {from.toUpperCase()} to {to.toUpperCase()}?</h3>
-                <p className="text-sm text-muted-foreground">
-                  The current exchange rate for 1 {from.toUpperCase()} to {to.toUpperCase()} is {rate ?? 'loading...'}. Check live rates on Cooins for the most accurate data.
-                </p>
-              </div>
-            </div>
-          </section> */}
         </div>
       </main>
     </>

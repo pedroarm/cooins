@@ -15,12 +15,17 @@ const nextConfig = {
     parallelServerCompiles: true,
   },
 
+  i18n: {
+    locales: ['en-US', 'pt-BR'],
+    defaultLocale: 'en'
+  },
+
   async redirects() {
     return [
       {
         source: '/',
         destination: '/convert/usd-to-brl',
-        permanent: true, // Redirecionamento 301 para SEO
+        permanent: true,
       },
     ];
   },
