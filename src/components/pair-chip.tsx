@@ -1,22 +1,20 @@
 'use client'
 
-import { currencies } from '@/utils/currencies';
-import { Button } from './ui/button'
-import { useQueryStates, parseAsString } from 'nuqs';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+import { currencies } from '@/utils/currencies';
+import { Button } from './ui/button'
+
 export function PairChip({ pair }: { pair: { from: string; to: string; rate?: { bid: string } } }) {
-  const [, setPair] = useQueryStates({
-    from: parseAsString,
-    to: parseAsString,
-  });
+  const router = useRouter();
 
   const fromCurrency = currencies.find((c) => c.code === pair.from);
   const toCurrency = currencies.find((c) => c.code === pair.to);
 
   const handlePairClick = () => {
-    setPair({ from: pair.from, to: pair.to });
-  }
+    router.push(`/convert/${pair.from.toLocaleLowerCase()}-to-${pair.to.toLocaleLowerCase()}`);
+  };
 
   return (
     <Button

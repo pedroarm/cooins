@@ -14,6 +14,16 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/convert/usd-to-brl',
+        permanent: true, // Redirecionamento 301 para SEO
+      },
+    ];
+  },
 }
 
 export default nextConfig
