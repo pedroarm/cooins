@@ -30,7 +30,6 @@ export function PairChip({ pair }: { pair: { from: string; to: string; } }) {
         alt={`${fromCurrency?.name || 'Unknown'} flag`}
         width={16}
         height={16}
-        placeholder="blur"
         className="rounded-full object-cover size-4"
       />
       <span className="text-sm">{pair.from.toUpperCase()}</span>
@@ -40,7 +39,6 @@ export function PairChip({ pair }: { pair: { from: string; to: string; } }) {
         alt={`${toCurrency?.name || 'Unknown'} flag`}
         width={16}
         height={16}
-        placeholder="blur"
         className="rounded-full object-cover size-4"
       />
       <span className="text-sm">{pair.to.toUpperCase()}</span>
