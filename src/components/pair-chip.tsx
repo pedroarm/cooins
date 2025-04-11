@@ -26,19 +26,21 @@ export function PairChip({ pair }: { pair: { from: string; to: string; } }) {
       aria-describedby="pair-chip"
     >
       <Image
-        src={fromCurrency?.flag || '/placeholder.png'}
+        src={`https://flagcdn.com/${fromCurrency?.flag}.svg`}
         alt={`${fromCurrency?.name || 'Unknown'} flag`}
         width={16}
         height={16}
+        placeholder="blur"
         className="rounded-full object-cover size-4"
       />
       <span className="text-sm">{pair.from.toUpperCase()}</span>
       <span className="text-xs text-muted-foreground font-mono uppercase">to</span>
       <Image
-        src={toCurrency?.flag || '/placeholder.png'}
+        src={`https://flagcdn.com/${toCurrency?.flag}.svg`}
         alt={`${toCurrency?.name || 'Unknown'} flag`}
         width={16}
         height={16}
+        placeholder="blur"
         className="rounded-full object-cover size-4"
       />
       <span className="text-sm">{pair.to.toUpperCase()}</span>

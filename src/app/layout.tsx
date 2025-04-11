@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--geist-mono-font'
 export const metadata: Metadata = {
   title: {
     default: 'Cooins - Currency Converter',
-    template: '%s | Cooins',
+    template: '%s - Cooins',
   },
   description: 'Convert currencies easily with real-time exchange rates. Fast, simple, and reliable currency converter tool.',
   keywords: ['currency converter', 'exchange rates', 'convert USD to BRL', 'real-time currency conversion', 'cooins'],
