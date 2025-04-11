@@ -1,16 +1,21 @@
+import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { Suspense } from 'react';
+import Image from 'next/image';
 
 import { currencies } from '@/utils/currencies';
-import CurrencyConverter from '@/components/currency-converter';
-import PopularConvertions from '@/components/popular-convertions';
-// import CurrencyHistory from '@/components/currency-history';
+import { CurrencyConverter } from '@/components/currency-converter';
+import { PopularConvertions } from '@/components/popular-convertions';
+import { CurrencyHistory } from '@/components/currency-history';
+import { CurrencyHistorySkeleton } from '@/components/currency-history-skeleton';
+import { ExchangeForm } from '@/components/forms/exchange-form';
+import { Separator } from '@/components/ui/separator';
+import { CurrencyConverterSkeleton } from '@/components/currency-converter-skeleton';
 
 function parsePair(pair: string): { from: string; to: string } {
   const parts = pair.split('-to-');
   if (parts.length !== 2) {
-    return { from: 'usd', to: 'brl' }; // Valor padrão se o parse falhar
+    return { from: 'usd', to: 'brl' };
   }
   return { from: parts[0], to: parts[1] };
 }
@@ -23,10 +28,10 @@ export async function generateMetadata({
   const { pair } = await params;
   const { from, to } = parsePair(pair);
 
-  const fromCurrency = currencies.find(c => c.code === from.toUpperCase())?.name ?? 'US Dollar';
-  const toCurrency = currencies.find(c => c.code === to.toUpperCase())?.name ?? 'Euro';
+  const fromCurrency = currencies.find(c => c.code === from.toLowerCase())?.name ?? 'US Dollar';
+  const toCurrency = currencies.find(c => c.code === to.toLowerCase())?.name ?? 'Euro';
 
-  const title = `Convert ${fromCurrency} (${from.toUpperCase()}) to ${toCurrency} (${to.toUpperCase()}) | Cooins`;
+  const title = `Convert ${fromCurrency} (${from.toUpperCase()}) to ${toCurrency} (${to.toUpperCase()}) - Cooins`;
   const description = `Convert ${fromCurrency} (${from.toUpperCase()}) to ${toCurrency} (${to.toUpperCase()}) with live exchange rates. Fast, accurate, and trusted currency converter by Cooins.`;
 
   return {
@@ -84,7 +89,6 @@ export async function generateMetadata({
   };
 }
 
-// Função para gerar dados estruturados (Schema.org)
 function generateStructuredData(from: string, to: string, rate: number | null) {
   return {
     '@context': 'https://schema.org',
@@ -115,9 +119,8 @@ export default async function ConvertPage({
   const { from, to } = parsePair(pair);
   const amount = resolvedSearchParams.amount ?? '1';
 
-  // Validação dos parâmetros
-  const validFrom = currencies.some(c => c.code === from.toUpperCase());
-  const validTo = currencies.some(c => c.code === to.toUpperCase());
+  const validFrom = currencies.some(c => c.code === from.toLowerCase());
+  const validTo = currencies.some(c => c.code === to.toLowerCase());
 
   if (!validFrom || !validTo) {
     redirect('/convert/usd-to-brl');
@@ -126,14 +129,29 @@ export default async function ConvertPage({
   const rate = 0.85; // Exemplo: 1 USD = 0.85 EUR
 
   return (
-    <>
+    <div className='relative flex min-h-svh flex-col bg-background'>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(generateStructuredData(from, to, rate)) }}
       />
 
-      <main className="flex min-h-screen flex-col items-center justify-center p-4 bg-background max-md:justify-start">
-        <div className="w-full max-w-md mx-auto">
+      <header className='border-grid sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+        <div className='flex h-16 items-center justify-between px-4 max-w-xl mx-auto'>
+          <div className='flex w-full items-center gap-4'>
+            <Image
+              src="/cooins.svg"
+              alt="Cooins logo"
+              width={28}
+              height={28}
+            />
+
+            <h1 className='text-lg font-bold'>cooins</h1>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex flex-col justify-center p-4">
+        <div className="w-full max-w-xl mx-auto">
           <h1 className="text-3xl font-extrabold tracking-tight text-center mb-2">
             Convert {currencies.find(c => c.code === from.toUpperCase())?.name ?? 'US Dollar'} to {currencies.find(c => c.code === to.toUpperCase())?.name ?? 'Euro'} with Cooins
           </h1>
@@ -143,16 +161,24 @@ export default async function ConvertPage({
 
           <PopularConvertions />
 
-          <Suspense fallback={<div>Loading Converter...</div>}>
-            <CurrencyConverter from={from.toUpperCase()} to={to.toUpperCase()} initialAmount={amount} />
-          </Suspense>
+          <div className="flex flex-col gap-6">
+            <Suspense fallback={<div>Loading Form...</div>}>
+              <ExchangeForm from={from} to={to} initialAmount={amount} />
+            </Suspense>
 
-          {/* <Suspense fallback={<div>Loading History...</div>}>
-            <CurrencyHistory from={from.toUpperCase()} to={to.toUpperCase()} />
-          </Suspense> */}
+            <Separator />
+
+            <Suspense fallback={<CurrencyConverterSkeleton />}>
+              <CurrencyConverter from={from} to={to} initialAmount={amount} />
+            </Suspense>
+          </div>
+
+          <Suspense fallback={<CurrencyHistorySkeleton />}>
+            <CurrencyHistory from={from} to={to} />
+          </Suspense>
         </div>
       </main>
-    </>
+    </div>
   );
 }
 

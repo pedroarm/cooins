@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
-import { ExchangeForm } from './forms/exchange-form';
-import { Separator } from './ui/separator';
+import { getPairQuotation } from '@/app/actions/get-pair-quotation';
 import { Convertion } from './convertion';
 
 type CurrencyConverterProps = {
@@ -9,15 +8,17 @@ type CurrencyConverterProps = {
   initialAmount: string;
 };
 
-export default function CurrencyConverter({ from, to, initialAmount }: CurrencyConverterProps) {
+export async function CurrencyConverter({ from, to, initialAmount }: CurrencyConverterProps) {
+  const exchangeRate = await getPairQuotation(from, to);
+
   return (
-    <div className="flex flex-col gap-6">
-      <Suspense fallback={<div>Loading Form...</div>}>
-        <ExchangeForm initialFrom={from} initialTo={to} initialAmount={initialAmount} />
-      </Suspense>
-      <Separator />
+    <div className="flex flex-col gap-1">
+      <div className="flex justify-between items-center">
+        <span className="text-xs uppercase tracking-wider text-muted-foreground font-mono">Converted Amount</span>
+      </div>
+
       <Suspense fallback={<div>Loading Conversion...</div>}>
-        <Convertion initialFrom={from} initialTo={to} initialAmount={initialAmount} />
+        <Convertion exchangeRate={exchangeRate} from={from} to={to} initialAmount={initialAmount} />
       </Suspense>
     </div>
   );

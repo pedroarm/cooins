@@ -26,7 +26,8 @@ export function CurrencySelector({ label, value, onChange, currencies }: Currenc
                 height={20}
                 className="rounded-full object-cover inline mr-2 size-5"
                 alt={`${currency.code} flag`}
-              /> {currency.code}
+              />
+              {currency.code.toUpperCase()}
             </SelectItem>
           ))}
         </SelectContent>

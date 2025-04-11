@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { currencies } from '@/utils/currencies';
 import { Button } from './ui/button'
 
-export function PairChip({ pair }: { pair: { from: string; to: string; rate?: { bid: string } } }) {
+export function PairChip({ pair }: { pair: { from: string; to: string; } }) {
   const router = useRouter();
 
   const fromCurrency = currencies.find((c) => c.code === pair.from);
@@ -32,7 +32,7 @@ export function PairChip({ pair }: { pair: { from: string; to: string; rate?: { 
         height={16}
         className="rounded-full object-cover size-4"
       />
-      <span className="text-sm">{pair.from}</span>
+      <span className="text-sm">{pair.from.toUpperCase()}</span>
       <span className="text-xs text-muted-foreground font-mono uppercase">to</span>
       <Image
         src={toCurrency?.flag || '/placeholder.png'}
@@ -41,12 +41,7 @@ export function PairChip({ pair }: { pair: { from: string; to: string; rate?: { 
         height={16}
         className="rounded-full object-cover size-4"
       />
-      <span className="text-sm">{pair.to}</span>
-      {/* {pair.rate && (
-        <span className="text-xs text-muted-foreground ml-1">
-          {parseFloat(pair.rate.bid).toFixed(2)}
-        </span>
-      )} */}
+      <span className="text-sm">{pair.to.toUpperCase()}</span>
     </Button>
   )
 }

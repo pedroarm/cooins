@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import Script from 'next/script';
+import { Geist, Geist_Mono } from 'next/font/google';
+import { Analytics } from "@vercel/analytics/react"
 
 import './globals.css';
 import { Providers } from './providers';
@@ -72,9 +73,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html >
   );

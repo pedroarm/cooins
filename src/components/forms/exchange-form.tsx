@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useCallback } from 'react';
-import { useQueryState, parseAsString } from 'nuqs';
 import { useRouter } from 'next/navigation';
+import { useQueryState, parseAsString } from 'nuqs';
 import { ArrowLeftRight } from 'lucide-react';
 
 import { currencies } from '@/utils/currencies';
@@ -11,15 +11,14 @@ import { CurrencySelector } from '../currency-selector';
 import { Button } from '../ui/button';
 
 type ExchangeFormProps = {
-  initialFrom: string;
-  initialTo: string;
+  from: string;
+  to: string;
   initialAmount: string;
 };
 
-export function ExchangeForm({ initialFrom, initialTo, initialAmount }: ExchangeFormProps) {
+export function ExchangeForm({ from, to, initialAmount }: ExchangeFormProps) {
   const router = useRouter();
 
-  // Usamos useQueryState apenas para amount
   const [amount, setAmount] = useQueryState('amount', parseAsString.withDefault(initialAmount));
 
   const handleAmountChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,12 +27,17 @@ export function ExchangeForm({ initialFrom, initialTo, initialAmount }: Exchange
   }, [setAmount]);
 
   const handleSwapClick = useCallback(() => {
-    router.push(`/convert/${initialTo.toLowerCase()}-to-${initialFrom.toLowerCase()}?amount=${amount || '1'}`);
-  }, [initialFrom, initialTo, amount, router]);
+    router.push(`/convert/${to.toLowerCase()}-to-${from.toLowerCase()}?amount=${amount || '1'}`);
+  }, [from, to, amount, router]);
 
   const handleCurrencyChange = useCallback((newFrom: string, newTo: string) => {
+    if (newFrom === newTo) {
+      router.push(`/convert/${to.toLowerCase()}-to-${from.toLowerCase()}?amount=${amount || '1'}`);
+      return;
+    }
+
     router.push(`/convert/${newFrom.toLowerCase()}-to-${newTo.toLowerCase()}?amount=${amount || '1'}`);
-  }, [amount, router]);
+  }, [amount, from, router, to]);
 
   return (
     <>
@@ -41,22 +45,22 @@ export function ExchangeForm({ initialFrom, initialTo, initialAmount }: Exchange
       <div className="flex w-full items-end gap-4 max-sm:gap-2">
         <CurrencySelector
           label="From"
-          value={initialFrom}
+          value={from}
           onChange={(value) => {
-            handleCurrencyChange(value, initialTo);
+            handleCurrencyChange(value, to);
           }}
           currencies={currencies}
         />
-        <div className="flex py-1">
+        <div className="flex py-0.75">
           <Button variant="ghost" size="icon" onClick={handleSwapClick} aria-label="Swap currencies">
             <ArrowLeftRight className="text-muted-foreground size-4" />
           </Button>
         </div>
         <CurrencySelector
           label="To"
-          value={initialTo}
+          value={to}
           onChange={(value) => {
-            handleCurrencyChange(initialFrom, value);
+            handleCurrencyChange(from, value);
           }}
           currencies={currencies}
         />
