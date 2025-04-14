@@ -14,7 +14,7 @@ export function CurrencySelector({ label, value, onChange, currencies }: Currenc
     <div className="flex-1 flex flex-col w-full gap-2">
       <label className="text-xs uppercase tracking-wider text-muted-foreground font-mono">{label}</label>
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full" aria-label={`${label} currency selector`}>
           <SelectValue placeholder="Select currency" />
         </SelectTrigger>
         <SelectContent>

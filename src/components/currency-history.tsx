@@ -15,9 +15,9 @@ export async function CurrencyHistory({
     <div className='w-full my-10'>
       <Card className='pb-0'>
         <CardHeader>
-          <CardTitle>{from.toLocaleUpperCase()} to {to.toLocaleUpperCase()} Exchange Rate Trend</CardTitle>
+          <CardTitle>Recent {from.toLocaleUpperCase()} to {to.toLocaleUpperCase()} Exchange Rate Trend</CardTitle>
           <CardDescription>
-            Tracking daily {from.toLocaleUpperCase()}/{to.toLocaleUpperCase()} conversion for the past 30 days
+            Stay informed with the latest market movements for {from.toLocaleUpperCase()}/{to.toLocaleUpperCase()}.
           </CardDescription>
         </CardHeader>
         <CardContent className='p-0'>
