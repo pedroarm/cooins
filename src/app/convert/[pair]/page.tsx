@@ -55,7 +55,7 @@ export default async function Page({
       <main className="flex flex-col justify-center px-4 py-14">
         <div className="w-full max-w-xl mx-auto">
           <h1 className="text-3xl font-extrabold tracking-tight text-center mb-2">
-            Convert {currencies.find(c => c.code === from.toUpperCase())?.name ?? 'US Dollar'} to {currencies.find(c => c.code === to.toUpperCase())?.name ?? 'Euro'} with Cooins
+            Convert {currencies.find(c => c.code === from)?.name ?? 'US Dollar'} to {currencies.find(c => c.code === to)?.name ?? 'Euro'} with Cooins
           </h1>
           <p className="text-sm text-center text-muted-foreground mb-10">
             Real-time currency conversion at your fingertips. Simple. Fast. Reliable.
