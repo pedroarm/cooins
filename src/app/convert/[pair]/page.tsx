@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
+import Script from 'next/script';
 
 import { generateConvertMetadata, generateExchangeStructuredData } from '@/utils/seo/convert';
 import { currencies } from '@/utils/currencies';
@@ -17,7 +18,6 @@ import { Why } from '@/components/why';
 import { Faq } from '@/components/faq';
 import { UseCasesSection } from '@/components/use-cases-section';
 import { Footer } from '@/components/footer';
-
 
 export async function generateMetadata({ params }: { params: Promise<{ pair: string }> }) {
   const { pair } = await params
@@ -45,7 +45,8 @@ export default async function Page({
 
   return (
     <div className='relative flex min-h-svh flex-col bg-background'>
-      <script
+      <Script
+        id="structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(generateExchangeStructuredData(from, to, rate)) }}
       />

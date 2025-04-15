@@ -14,14 +14,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'FinancialService',
-    name: 'Cooins',
-    description: 'A simple and fast currency converter with real-time exchange rates.',
-    url: 'https://cooins.co',
-  };
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
@@ -29,11 +21,6 @@ export default function RootLayout({
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}`}
           crossOrigin="anonymous"
-        />
-        <Script
-          id="structured-data"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <Providers>{children}</Providers>
         <Analytics />
