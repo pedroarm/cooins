@@ -9,7 +9,7 @@ export async function generateConvertMetadata(pair: string): Promise<Metadata> {
   const fromCurrency = currencies.find(c => c.code === from.toLowerCase())?.name ?? 'US Dollar'
   const toCurrency = currencies.find(c => c.code === to.toLowerCase())?.name ?? 'Euro'
 
-  const title = `Convert ${fromCurrency} (${from.toUpperCase()}) to ${toCurrency} (${to.toUpperCase()}) - Cooins`
+  const title = `Convert ${fromCurrency} (${from.toUpperCase()}) to ${toCurrency} (${to.toUpperCase()}) | Cooins`
   const description = `Convert ${fromCurrency} (${from.toUpperCase()}) to ${toCurrency} (${to.toUpperCase()}) with live exchange rates.`
 
   return {
@@ -22,6 +22,9 @@ export async function generateConvertMetadata(pair: string): Promise<Metadata> {
       'live exchange rates',
       'real-time currency conversion',
       `${fromCurrency} to ${toCurrency} exchange rate`,
+      ...(currencies.map(c => `${c.name} today`) ?? []),
+      ...(currencies.map(c => `${c.name} now`) ?? []),
+      ...(currencies.map(c => `${c.name} exchange`) ?? []),
     ],
     metadataBase: new URL('https://cooins.co'),
     openGraph: { title, description, url: `/convert/${from}-to-${to}`, type: 'website' },
