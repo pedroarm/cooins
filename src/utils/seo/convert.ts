@@ -27,6 +27,13 @@ export async function generateConvertMetadata(pair: string): Promise<Metadata> {
       ...(currencies.map(c => `${c.name} exchange`) ?? []),
     ],
     metadataBase: new URL('https://cooins.co'),
+    alternates: {
+      canonical: `/convert/${from.toLowerCase()}-to-${to.toLowerCase()}`,
+      languages: {
+        'pt-BR': `/pt-BR/convert/${from.toLowerCase()}-to-${to.toLowerCase()}`,
+        'en-US': `/en-US/convert/${from.toLowerCase()}-to-${to.toLowerCase()}`,
+      },
+    },   
     openGraph: { title, description, url: `/convert/${from}-to-${to}`, type: 'website' },
     twitter: { card: 'summary_large_image', title, description, images: ['/og-image.jpg'] },
     robots: {

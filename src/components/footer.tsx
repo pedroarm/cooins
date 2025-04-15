@@ -9,7 +9,7 @@ export function Footer() {
           <span className='w-full font-mono text-xs font-medium uppercase text-white'>&copy; {new Date().getFullYear()} Cooins – All rights reserved</span>
         </div>
 
-        <ul className='flex w-full items-start flex-col justify-start gap-1 sm:gap-4 sm:items-center sm:justify-end sm:flex-row'>
+        <ul className='flex w-full items-start flex-col justify-start gap-4 sm:items-center sm:justify-end sm:flex-row'>
           <li className='flex'>
             <Link href="/about" className='text-foreground text-xs inline-flex items-center whitespace-nowrap font-mono font-medium uppercase leading-none gap-2 tracking-normal'>
               <span>About</span>
